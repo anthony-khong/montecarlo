@@ -1,0 +1,49 @@
+name:                montecarlo
+version:             0.1.0.0
+github:              "anthony-khong/montecarlo"
+license:             BSD3
+author:              "Anthony Khong"
+maintainer:          "anthony.kusumo.khong@gmail.com"
+copyright:           "-"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/anthony-khong/montecarlo#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- accelerate
+
+library:
+  source-dirs: src
+
+executables:
+  montecarlo-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - montecarlo
+
+tests:
+  montecarlo-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - montecarlo
