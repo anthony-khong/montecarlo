@@ -19,17 +19,21 @@ unitTests =
     "Unit tests"
     [ testCase "Exp. sample" (expSampleEqual @? "Exponential samples must be equal.")
     , testCase
-        "Conditional Exponential sample"
+        "Conditional exponential sample"
         (condExpMomentsTest Ex1.rCondExp @? "Moments do not match.")
     , testCase
-        "Rejection Sampling Conditional Exponential sample"
+        "Rejection sampling conditional exponential sample"
         (condExpMomentsTest Ex1.rCondExp' @? "Moments do not match.")
+    , testCase "Gamma with only uniform sample" (gamma1MomentsTest @? "Moments do not match.")
     ]
 
 expSampleEqual :: Bool
 expSampleEqual = V.all (uncurry (==)) samplePairs
   where
     samplePairs = V.zip (S.sampleExp 10) (S.sampleExp' 10)
+
+isClose :: (Ord a, Floating a) => a -> a -> Bool
+isClose = S.isCloseWithTolerance 0 2e-1
 
 condExpMomentsTest :: (Double -> Double -> Int -> V.Vector Double) -> Bool
 condExpMomentsTest rFn = isClose (S.mean xs) expectedMean && isClose (S.var xs) expectedVar
@@ -39,4 +43,9 @@ condExpMomentsTest rFn = isClose (S.mean xs) expectedMean && isClose (S.var xs) 
     xs = rFn alpha lambda 100
     expectedMean = alpha + 1.0 / lambda
     expectedVar = 1.0 / lambda ** 2
-    isClose = S.isCloseWithTolerance 0 2e-1
+
+gamma1MomentsTest :: Bool
+gamma1MomentsTest = isClose (S.mean xs) alpha && isClose (S.var xs) alpha
+  where
+    alpha = 0.333
+    xs = Ex1.rGamma1 alpha 500
