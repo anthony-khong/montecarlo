@@ -22,6 +22,17 @@ description:         Please see the README on Github at <https://github.com/anth
 dependencies:
 - base >= 4.7 && < 5
 - accelerate
+- ad
+- diagrams
+- flow
+- mtl
+- numbers
+- random-fu
+- random-source
+- statistics
+- tasty
+- tasty-hunit
+- vector
 
 library:
   source-dirs: src
